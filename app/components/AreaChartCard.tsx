@@ -19,15 +19,15 @@ export default function AreaChartCard({ data }: { data: any[] }) {
     text: isDark ? "#e5e7eb" : "#111827",
     grid: isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)",
     stroke: isDark ? "#818cf8" : "#3b82f6",
-    fill: isDark ? "rgba(129,140,248,0.2)" : "rgba(59,130,246,0.2)",
   };
 
   return (
-    <div className="w-full h-[320px] sm:h-[360px] rounded-xl border p-4 backdrop-blur-md">
-      <ResponsiveContainer width="100%" height="100%">
+    <div className="w-full h-[320px] sm:h-[360px] min-h-[280px] rounded-xl border p-4 backdrop-blur-md">
+      {/* IMPORTANT: FIX height(-1) issue */}
+      <ResponsiveContainer width="100%" height={300}>
         <AreaChart data={data}>
           <defs>
-            <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+            <linearGradient id="areaGlow" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor={colors.stroke} stopOpacity={0.4} />
               <stop offset="95%" stopColor={colors.stroke} stopOpacity={0} />
             </linearGradient>
@@ -40,6 +40,7 @@ export default function AreaChartCard({ data }: { data: any[] }) {
             stroke={colors.text}
             tick={{ fontSize: 11 }}
           />
+
           <YAxis stroke={colors.text} tick={{ fontSize: 11 }} />
 
           <Tooltip />
@@ -48,8 +49,8 @@ export default function AreaChartCard({ data }: { data: any[] }) {
             type="monotone"
             dataKey="amount"
             stroke={colors.stroke}
-            fillOpacity={1}
-            fill="url(#colorUv)"
+            strokeWidth={2}
+            fill="url(#areaGlow)"
           />
         </AreaChart>
       </ResponsiveContainer>

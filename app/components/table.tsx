@@ -7,11 +7,13 @@ export default function Table({ data }: { data: Transaction[] }) {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
+  const text = isDark ? "#e5e7eb" : "#111827";
+
   return (
-    <div className="w-full mt-6">
+    <div className="w-full mt-6 overflow-x-auto">
       {/* container */}
       <div
-        className="rounded-xl border overflow-hidden"
+        className="min-w-[420px] rounded-xl border overflow-hidden backdrop-blur-md"
         style={{
           background: isDark
             ? "rgba(255,255,255,0.03)"
@@ -23,7 +25,7 @@ export default function Table({ data }: { data: Transaction[] }) {
         <div
           className="grid grid-cols-3 px-4 sm:px-6 py-3 text-xs sm:text-sm font-semibold"
           style={{
-            color: isDark ? "#e5e7eb" : "#111827",
+            color: text,
             borderBottom: isDark
               ? "1px solid rgba(255,255,255,0.08)"
               : "1px solid rgba(0,0,0,0.08)",
@@ -42,22 +44,23 @@ export default function Table({ data }: { data: Transaction[] }) {
               grid grid-cols-3
               px-4 sm:px-6 py-3
               text-xs sm:text-sm
-              transition-colors duration-200
+              transition-all duration-200
+              hover:bg-black/5 dark:hover:bg-white/5
             "
             style={{
-              color: isDark ? "#e5e7eb" : "#111827",
+              color: text,
               borderBottom: isDark
                 ? "1px solid rgba(255,255,255,0.04)"
                 : "1px solid rgba(0,0,0,0.04)",
             }}
           >
             {/* DATE */}
-            <span className="opacity-80">{item.date}</span>
+            <span className="opacity-80 whitespace-nowrap">{item.date}</span>
 
             {/* CATEGORY */}
-            <span>
+            <span className="flex items-center">
               <span
-                className="px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-medium"
+                className="px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-medium whitespace-nowrap"
                 style={{
                   background: isDark
                     ? "rgba(99,102,241,0.15)"
@@ -73,7 +76,9 @@ export default function Table({ data }: { data: Transaction[] }) {
             </span>
 
             {/* AMOUNT */}
-            <span className="text-right font-semibold">${item.amount}</span>
+            <span className="text-right font-semibold whitespace-nowrap">
+              ${item.amount}
+            </span>
           </div>
         ))}
       </div>

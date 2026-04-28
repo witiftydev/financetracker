@@ -11,7 +11,7 @@ import {
   Cell,
 } from "recharts";
 import { useTheme } from "./ThemeProvider";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 
 type Props = { data: any[] };
 
@@ -19,14 +19,10 @@ const Chart = ({ data }: Props) => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
-  const [isMobile, setIsMobile] = useState(false);
-
-  // detect screen size
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 480);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
+  // ✅ safer than window resize listener (no hydration issues)
+  const isMobile = useMemo(() => {
+    if (typeof window === "undefined") return false;
+    return window.innerWidth < 480;
   }, []);
 
   const colors = {
@@ -36,22 +32,27 @@ const Chart = ({ data }: Props) => {
     border: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
   };
 
-  const getBarColor = (index: number) => {
-    const darkPalette = ["#818cf8", "#a78bfa", "#60a5fa", "#34d399"];
-    const lightPalette = ["#3b82f6", "#6366f1", "#06b6d4", "#10b981"];
+  const darkPalette = ["#818cf8", "#a78bfa", "#60a5fa", "#34d399"];
+  const lightPalette = ["#3b82f6", "#6366f1", "#06b6d4", "#10b981"];
 
-    return isDark
+  const getBarColor = (index: number) =>
+    isDark
       ? darkPalette[index % darkPalette.length]
       : lightPalette[index % lightPalette.length];
-  };
 
   return (
-    <div className="w-full h-[340px] sm:h-[360px] md:h-[420px]">
-      <ResponsiveContainer width="100%" height="100%">
+    <div className="w-full h-[340px] sm:h-[360px] md:h-[420px] min-h-[280px]">
+      {/* IMPORTANT FIX: stable height for recharts */}
+      <ResponsiveContainer width="100%" height={320}>
         <BarChart
           data={data}
-          margin={{ top: 10, right: 10, left: 0, bottom: isMobile ? 55 : 30 }}
-          barCategoryGap="30%"
+          margin={{
+            top: 10,
+            right: 10,
+            left: 0,
+            bottom: isMobile ? 60 : 30,
+          }}
+          barCategoryGap="25%"
         >
           {/* GRID */}
           <CartesianGrid
@@ -60,7 +61,7 @@ const Chart = ({ data }: Props) => {
             vertical={false}
           />
 
-          {/* X AXIS (RESPONSIVE ROTATION) */}
+          {/* X AXIS */}
           <XAxis
             dataKey="category"
             stroke={colors.text}
@@ -70,7 +71,7 @@ const Chart = ({ data }: Props) => {
             interval={0}
             height={60}
             tickMargin={10}
-            angle={isMobile ? -25 : 0}
+            angle={isMobile ? -35 : 0}
             textAnchor={isMobile ? "end" : "middle"}
           />
 
