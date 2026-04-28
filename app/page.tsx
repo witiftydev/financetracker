@@ -4,6 +4,14 @@ import React, { useState } from "react";
 import Chart from "./components/Chart";
 import { transaction } from "./lib/data";
 import { ThemeProvider, useTheme } from "./components/ThemeProvider";
+import ExportBtn from "./components/export-btn";
+import Filters from "./components/filters";
+import Table from "./components/table";
+import AreaChartCard from "./components/AreaChartCard";
+import LineChartCard from "./components/LineChartCard";
+import DonutChart from "./components/DonutChart";
+import ComposedChartCard from "./components/ComposedChartCard";
+import Sparkline from "./components/Sparkline";
 
 const page = () => {
   const { theme, setTheme } = useTheme();
@@ -19,7 +27,9 @@ const page = () => {
   return (
     <div className="p-6 min-h-screen">
       <div className="flex justify-between mb-6">
-        <h1 className="text-2xl font-bold">Finance Tracker</h1>
+        <h1 className="text-2xl font-bold">
+          Finance Tracker (Some charts design - by Fahim Ahmed Ifty)
+        </h1>
         <button
           onClick={toggleTheme}
           className="p-2 rounded-lg bg-[var(--secondary)] hover:bg-[var(--accent)] transition-colors"
@@ -64,7 +74,34 @@ const page = () => {
           )}
         </button>
       </div>
-      <Chart data={filtered} />
+      <Filters setCategory={setCategory} />
+      <div className="mt-6">
+        {" "}
+        <Chart data={filtered} />
+      </div>
+      <div className="mt-6 ">
+        {" "}
+        <Table data={filtered} />
+      </div>
+      <div className="mt-6">
+        <AreaChartCard data={filtered} />
+      </div>
+      <div className="mt-6">
+        <LineChartCard data={filtered} />
+      </div>
+      <div className="mt-6">
+        <div className="mt-6">
+          <DonutChart data={filtered} />
+        </div>
+        <div className="mt-6">
+          <ComposedChartCard data={filtered} />
+        </div>
+        <div className="mt-6">
+          {" "}
+          <Sparkline data={filtered} />
+        </div>
+        <ExportBtn data={filtered} />
+      </div>
     </div>
   );
 };
