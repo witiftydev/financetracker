@@ -96,6 +96,9 @@ const Chart = ({ data }: Props) => {
               color: colors.text,
               fontWeight: 600,
             }}
+            itemStyle={{
+              color: colors.text, // 🔥 FIX for amount text
+            }}
           />
 
           {/* BARS */}
