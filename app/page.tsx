@@ -15,6 +15,7 @@ import Sparkline from "./components/Sparkline";
 import CarAbandonmentRateChart from "./components/CarAbandonmentRateChart";
 import IncreaseInConversionRateChart from "./components/IncreaseInConversionRateChart";
 import ShoppingCartAbandonmentChart from "./components/ShoppingCartAbandonmentChart";
+import DigitalBusinessChart from "./components/DigitalBusinessChart";
 
 const page = () => {
   const { theme, setTheme } = useTheme();
@@ -33,8 +34,9 @@ const page = () => {
         <CarAbandonmentRateChart />
         <IncreaseInConversionRateChart />
       </div>
-      <div className="mt-6">
+      <div className="mt-6 flex flex-col gap-6">
         <ShoppingCartAbandonmentChart />
+        <DigitalBusinessChart />
       </div>
       <div className="flex justify-between mb-6">
         <h1 className="text-2xl font-bold">
