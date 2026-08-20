@@ -12,6 +12,9 @@ import LineChartCard from "./components/LineChartCard";
 import DonutChart from "./components/DonutChart";
 import ComposedChartCard from "./components/ComposedChartCard";
 import Sparkline from "./components/Sparkline";
+import CarAbandonmentRateChart from "./components/CarAbandonmentRateChart";
+import IncreaseInConversionRateChart from "./components/IncreaseInConversionRateChart";
+import ShoppingCartAbandonmentChart from "./components/ShoppingCartAbandonmentChart";
 
 const page = () => {
   const { theme, setTheme } = useTheme();
@@ -26,6 +29,13 @@ const page = () => {
       : transaction.filter((t) => t.category === category);
   return (
     <div className="p-6 min-h-screen">
+      <div className="flex flex-col md:flex-row gap-6 mb-6">
+        <CarAbandonmentRateChart />
+        <IncreaseInConversionRateChart />
+      </div>
+      <div className="mt-6">
+        <ShoppingCartAbandonmentChart />
+      </div>
       <div className="flex justify-between mb-6">
         <h1 className="text-2xl font-bold">
           Finance Tracker (Some charts design - by Fahim Ahmed Ifty)
@@ -96,6 +106,7 @@ const page = () => {
         <div className="mt-6">
           <ComposedChartCard data={filtered} />
         </div>
+
         <div className="mt-6">
           {" "}
           <Sparkline data={filtered} />
